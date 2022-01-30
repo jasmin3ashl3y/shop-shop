@@ -2,9 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { pluralize } from "../../utils/helpers"
 import { idbPromise } from "../../utils/helpers";
+import { useSelector, useDispatch } from "react-redux";
 
-import { useStoreContext } from '../../utils/GlobalState';
-import { ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
+//import { useStoreContext } from '../../utils/GlobalState';
+import { ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../redux/actions';
 
 function ProductItem(item) {
   const {
@@ -15,8 +16,10 @@ function ProductItem(item) {
     quantity
   } = item;
 
-  const [state, dispatch] = useStoreContext();
-  const { cart } = state;
+  //const [state, dispatch] = useStoreContext();
+  //const { cart } = state;
+  const dispatch = useDispatch()
+  const cart = useSelector(state => state.cart)
 
   const addToCart = () => {
     // find the cart item with the matching id
