@@ -5,7 +5,8 @@ import './style.css';
 
 //import { useStoreContext } from '../../utils/GlobalState';
 import { useDispatch, useSelector } from 'react-redux'
-import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../redux/actions';
+import { TOGGLE_CART } from '../../redux/actions';
+import { ADD_MULTIPLE_TO_CART } from '../../redux/actions';
 import { idbPromise } from "../../utils/helpers";
 import { QUERY_CHECKOUT } from '../../utils/queries';
 import { loadStripe } from '@stripe/stripe-js';
@@ -13,12 +14,12 @@ import { useLazyQuery } from '@apollo/client';
 
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
-const Cart = () => {
-
+export default function Cart () {
   //const [state, dispatch] = useStoreContext();
-  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
   const dispatch = useDispatch()
   const state = useSelector(state => state)
+
+  const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
   useEffect(() => {
     async function getCart() {
@@ -79,11 +80,11 @@ const Cart = () => {
     <div className="cart">
       <div className="close" onClick={toggleCart}>[close]</div>
       <h2>Shopping Cart</h2>
-      {state.cart.length ? (
-      <div>
-        {state.cart.map(item => (
-          <CartItem item={item._id} item={item} />
-        ))}
+        <div>
+            {state.cart.map(item => (
+              <CartItem item={item._id} item={item} />
+            ))}
+        </div>
           <div className="flex-row space-between">
             <strong>Total: ${calculateTotal()}</strong>
             {
@@ -91,21 +92,10 @@ const Cart = () => {
               <button onClick={submitCheckout}>
                 Checkout
               </button>
-                :
+              :
                 <span>(log in to check out)</span>
             }
           </div>
-        </div>
-      ) : (
-        <h3>
-        <span role="img" aria-label="shocked">
-          😱
-        </span>
-        You haven't added anything to your cart yet!
-        </h3>
-      )}
-    </div>
-  );
-};
-
-export default Cart;
+      </div>
+  )
+}
