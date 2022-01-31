@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useMutation } from '@apollo/client';
-import { idbPromise } from "../../utils/helpers";
 import Jumbotron from "../components/Jumbotron";
 import { ADD_ORDER } from '../utils/mutations';
+import { idbPromise } from "../utils/helpers";
 
 export default function Success() {
     const [addOrder] = useMutation(ADD_ORDER);
@@ -19,6 +19,9 @@ export default function Success() {
                   idbPromise('cart', 'delete', item);
                 });
             }
+            setTimeout(() => {
+                window.location.assign('/')
+            }, 3000)
         }
 
         saveOrder();
